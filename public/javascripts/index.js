@@ -1,14 +1,11 @@
-var input = document.getElementById("upload")
-var caminho = "public/assets/${filename}";
-var teste = caminho
-console.log(teste)
-
-function findvideo() {
-    var video = document.getElementById('video');
-    var source = document.getElementById('src');
-    source.setAttribute('src', caminho);
-    video.load();
-    video.play();
+const fileInput = document.getElementById('upload');
+fileInput.onchange = () => {
+    if (fileInput.files.length > 0) {
+        const fileName = document.getElementById('upload');
+        fileName.textContent = fileInput.files[0].name;
+        const submitButton = document.getElementById('submitButton');
+        submitButton.removeAttribute('disabled')
+    }
 }
 
 function upar(input) {
@@ -19,11 +16,6 @@ function upar(input) {
     }
 }
 
-function srcnovo() {
-    var caminhonovo = document.getElementById("src");
-    var video = document.getElementById("video");
-    caminhonovo.setAttribute('src',"assets/video.mp4");
-}
 
 function salvar() {
     let confirmAction = confirm("Você irá substituir o vídeo pemanentemente");

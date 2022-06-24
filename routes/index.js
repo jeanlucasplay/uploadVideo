@@ -1,43 +1,87 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+let router = express.Router();
 const multer = require("multer");
 
-const {uuid} = require('uuidv4')
 const path = require("path");
 let fs = require ('fs')
+let arquivos = fs.readdirSync("public/assets/")
 
-fs.readdirSync("./public/assets",  (err, file) => {
-  if (err)
-    console.log(err);
-  else {
-    console.log("\nNome do arquivo no diretório atual:");
-    file.forEach(file => {
-      console.log(file);
-      file.replace()
-    })
-  }
-})
 
+//inicio
+arquivos.forEach(removemp4)// executa função removemp4
+function removemp4(filename,id){ // Remove final .mp4 e transfroma em inteiro
+  arquivos[id]=filename.replace(".mp4","");
+  arquivos[id]=parseInt(arquivos[id]);
+}
+
+function bubbleSort (arr) { // Função de ordernação decrescente
+  let len = arr.length;
+  let checked;
+   do {
+    checked = false;
+     for (let i = 0; i < len; i++) {
+      if (arr[i] < arr[i + 1]) {
+        let tmp = arr[i];
+        arr[i] = arr[i + 1]
+        arr[i + 1] = tmp;
+        checked = true;
+      }
+    }
+  } while (checked);
+  return arr;
+};
+
+
+let fileNameOld = bubbleSort(arquivos); // Executando a função bubble Sort
+
+fileNameOld.forEach(removevideos)// executa função removemp4
+function removevideos(video,id){ // //vamos excluir os difenretes de fileNameOld[0]
+    if (id != 0){
+            fs.unlinkSync("public/assets/"+fileNameOld[id]+".mp4");
+    }
+}
+
+fileNameOld = fileNameOld[0]+".mp4";
+//console.log(fileNameOld);
+//fim
+
+
+
+
+// Função de salvamento
 const storage = multer.diskStorage({
-  destination: function(req,file,cb){
+  destination: function(req,file,cb){// Definindo local de armazenamento
     cb(null,"public/assets/");
   },
-  filename: function (req,file,cb) {
-    cb(null, file.originalname)
+  filename: function (req,file,cb) {// Definindo nome do arquivo
+    var data = new Date();
+    cb(null,
+        data.getFullYear().toString()
+        +data.getMonth().toString()
+        +data.getDate().toString()
+        +data.getHours().toString()
+        +data.getMinutes().toString()
+        +data.getSeconds().toString()
+        +".mp4");
   }
 })
-
 const upload = multer({storage});
 
 /*3 GET home page. */
-router.get('/', function(req, res) {
-  res.render('index', { title: 'Indicadores' });
+router.get('/', (req, res) => {
+    res.render('index', { title: 'Indicadores',fileNameOld  });
 
 });
 
 router.post('/public/assets',upload.single("file"),(req,res) => {
+  arquivos = fs.readdirSync("public/assets/")
+  arquivos.forEach(removemp4)// executa função removemp4
+  fileNameOld = bubbleSort(arquivos); // Executando a função bubble Sort
+    try {
+        fileNameOld.forEach(removevideos)// executa função removemp4
+    }catch {"deu falha"}
+  fileNameOld = fileNameOld[0]+".mp4";
   res.redirect('/');
-
 });
 
 module.exports = router;
