@@ -46,8 +46,6 @@ fileNameOld = fileNameOld[0]+".mp4";
 //fim
 
 
-
-
 // Função de salvamento
 const storage = multer.diskStorage({
   destination: function(req,file,cb){// Definindo local de armazenamento
@@ -57,14 +55,21 @@ const storage = multer.diskStorage({
     var data = new Date();
     cb(null,
         data.getFullYear().toString()
-        +data.getMonth().toString()
-        +data.getDate().toString()
-        +data.getHours().toString()
-        +data.getMinutes().toString()
-        +data.getSeconds().toString()
+        +n (data.getMonth().toString())
+        +n (data.getDate().toString())
+        +n (data.getHours().toString())
+        +n (data.getMinutes().toString())
+        +n (data.getSeconds().toString())
         +".mp4");
   }
 })
+
+function n(num, len = 2) { //faz o número ficar com 2 digitos
+    return `${num}`.padStart(len, '0');
+}
+
+
+
 const upload = multer({storage});
 
 /*3 GET home page. */

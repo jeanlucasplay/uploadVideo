@@ -1,3 +1,4 @@
+// Desabilita botão de subtutuir caso não tenha nenhum arquivo selecionado
 const fileInput = document.getElementById('upload');
 fileInput.onchange = () => {
     if (fileInput.files.length > 0) {
