@@ -9,7 +9,6 @@ var debug = require('debug')('dashboardfinal:server');
 var https = require('https');
 const fs = require('fs');
 
-
 /**
  * Get port from environment and store in Express.
  */
@@ -22,8 +21,8 @@ app.set('port', port);
  */
 
 const options = {
-  key: fs.readFileSync('public/certSSL/privkey2.pem'),
-  cert: fs.readFileSync('public/certSSL/fullchain2.pem')
+  key: fs.readFileSync(__dirname +'/privkey2.pem'),
+  cert: fs.readFileSync(__dirname +'/fullchain2.pem')
 };
 
 var server = https.createServer(options, app);

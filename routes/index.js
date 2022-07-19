@@ -74,8 +74,11 @@ const upload = multer({storage});
 
 /*3 GET home page. */
 router.get('/', (req, res) => {
-    res.render('index', { title: 'Indicadores',fileNameOld  });
+    res.render('index', { titleIndica: 'Indicadores',fileNameOld  });
+});
 
+router.get('/cadastro', (req, res) => {
+    res.render('users', { titleCadastro: 'Cadastro'});
 });
 
 router.post('/public/assets',upload.single("file"),(req,res) => {
